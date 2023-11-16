@@ -7,9 +7,9 @@ Review the Project 2 requirements and check out some [examples](https://romebell
 In this space below, list **THREE** ideas for your Project 2. For each idea, include [user stories](https://www.atlassian.com/agile/project-management/user-stories) for each idea and a link to the API(s) you want to use for it.
 
 --------------------------------------------------------
-1. 
+1. Spot-A-Fire https://developer.spotify.com/documentation/web-api
 2. 
-3.
+3. 
 ---------------------------------------------------------
 
 Make a PR when you're done!
@@ -28,6 +28,9 @@ In the space below:
 
 ----------------------------------------------------------
 ### User Stories
+1. kerby wants to find out who are the most popular artist from his favorite genres
+2. kerby wants to take the most popular artist from each genres and get the best albums
+3. tommy want some new music he wants to find some playlist he wants ones with the most following
 
 ----------------------------------------------------------
 ### Wireframes
