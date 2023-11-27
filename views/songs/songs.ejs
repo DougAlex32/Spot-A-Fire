@@ -1,0 +1,5 @@
+<!-- views/songs/songs.ejs -->
+<h1>Songs</h1>
+<% songs.forEach(song => { %>
+  <p><%= song.title %> - <%= song.genre %></p>
+<% }) %>

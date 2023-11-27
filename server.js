@@ -6,7 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
-
+const apiRouter = require('./controllers/api');
 // environment variables
 SECRET_SESSION = process.env.SECRET_SESSION;
 
@@ -47,16 +47,9 @@ app.get('/profile', isLoggedIn, (req, res) => {
   const { id, name, email } = req.user.get(); 
   res.render('profile', { id, name, email });
 });
-app.get('/artist', isLoggedIn, async (req, res) => {
-  try {
-    // Use Sequelize model to fetch artists data
-    const allArtists = await Artist.findAll();
-    res.render('artist', { artists: allArtists });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+
+
+app.use('/api', isLoggedIn, apiRouter);
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {

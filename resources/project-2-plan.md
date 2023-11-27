@@ -28,13 +28,12 @@ In the space below:
 
 ----------------------------------------------------------
 ### User Stories
-1. kerby wants to find out who are the most popular artist from his favorite genres
-2. kerby wants to take the most popular artist from each genres and get the best albums
-3. tommy want some new music he wants to find some playlist he wants ones with the most following
+When I'm looking for new hiphop or rap music, I want to be able to find specific rappers and albums
+so I can share them when my friends and give them some insight into my rap taste.
 
 ----------------------------------------------------------
 ### Wireframes
-
+https://lucid.app/lucidchart/f9de8b88-0edb-4038-8c1d-c4dc3bd968a2/edit?viewport_loc=-1673%2C-1111%2C2219%2C1047%2C0_0&invitationId=inv_451e3590-0899-46b0-91e3-0b30ba9a70d4
 ----------------------------------------------------------
 
 Make a PR when you're done!
