@@ -1,5 +1,11 @@
-<!-- views/songs/songs.ejs -->
 <h1>Songs</h1>
-<% songs.forEach(song => { %>
-  <p><%= song.title %> - <%= song.genre %></p>
-<% }) %>
+<% for (let i = 0; i < songs.length; i++) { %>
+  <div>
+    <p><%= songs[i].title %> - <%= songs[i].genre %></p>
+    <form action="/api/library/add" method="post">
+      <input type="hidden" name="songId" value="<%= songs[i].id %>">
+      <button type="submit">Add to Library</button>
+    </form>
+  </div>
+<% } %>
+

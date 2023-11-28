@@ -1,0 +1,26 @@
+<!-- views/library/library.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Library</title>
+</head>
+<body>
+    <h1>User Library</h1>
+    
+    <% if (library && library.length > 0) { %>
+        <ul>
+            <% library.forEach(entry => { %>
+                <li>
+                    <strong>Song Title:</strong> <%= entry.Song.title %>
+                    <!-- Add additional fields as needed -->
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No songs in the library.</p>
+    <% } %>
+</body>
+</html>

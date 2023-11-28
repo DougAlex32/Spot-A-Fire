@@ -1,6 +1,7 @@
+
 const express = require('express');
 const router = express.Router();
-const { Song, Genre, Comment } = require('../models');
+const { Song, Genre, Comment, Library } = require('../models');
 
 // GET route for all songs
 router.get('/songs', async (req, res) => {
@@ -50,7 +51,64 @@ router.post('/genres', async (req, res) => {
   }
 });
 
-// Additional routes for creating playlists, adding/editing/deleting comments, etc.
+// POST route to add a song to the library
+// POST route to add a song to the user's library
+router.post('/library/add', async (req, res) => {
+    const { songId } = req.body;
+    const userId = req.user.id;
+  
+    try {
+      // Check if songId is provided
+      if (!songId) {
+        return res.status(400).json({ error: 'songId is required' });
+      }
+  
+      // Check if the song is already in the library
+      const existingEntry = await Library.findOne({
+        where: { songId: songId, userId: userId },
+      });
+  
+      if (existingEntry) {
+        return res.status(400).json({ error: 'Song already in the library' });
+      } else {
+        // If the song is not in the library, add it
+        await Library.create({ songId: songId, userId: userId });
+        return res.status(201).json({ success: 'Song added to the library' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  // POST route to remove a song from the library
+  router.post('/library/remove', async (req, res) => {
+    const { songId } = req.body;
+    try {
+      await Library.destroy({ where: { UserId: req.user.id, SongId: songId } });
+      res.status(200).json({ message: 'Song removed from the library successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+ 
+
+  router.get('/library', async (req, res) => {
+    try {
+      const userLibrary = await Library.findAll({
+        where: { userId: req.user.id },
+        include: [Song],
+      });
+  
+      res.render('library/library', { library: userLibrary });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
 
 module.exports = router;
 
