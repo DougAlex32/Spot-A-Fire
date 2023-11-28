@@ -1,11 +1,35 @@
-<h1>Songs</h1>
-<% for (let i = 0; i < songs.length; i++) { %>
-  <div>
-    <p><%= songs[i].title %> - <%= songs[i].genre %></p>
-    <form action="/api/library/add" method="post">
-      <input type="hidden" name="songId" value="<%= songs[i].id %>">
-      <button type="submit">Add to Library</button>
-    </form>
-  </div>
-<% } %>
+<!-- views/songs/songs.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Songs</title>
+</head>
+<body>
+    <h1>All Songs</h1>
+    
+    <% if (songs && songs.length > 0) { %>
+        <ul>
+            <% songs.forEach(song => { %>
+                <li>
+                    <strong>Title:</strong> <%= song.title %>
+                    <strong>Genre:</strong> <%= song.genre %>
+                    <!-- Add additional fields as needed -->
+
+                    <!-- Add a form with a button to add the song to the library -->
+                    <form action="/api/library/add" method="post">
+                        <input type="hidden" name="songId" value="<%= song.id %>">
+                        <button type="submit">Add to Library</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No songs available.</p>
+    <% } %>
+</body>
+</html>
+
 

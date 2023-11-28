@@ -5,15 +5,15 @@ const { Song, Genre, Comment, Library } = require('../models');
 
 // GET route for all songs
 router.get('/songs', async (req, res) => {
-  try {
-    const songs = await Song.findAll();
-    res.render('songs/songs', { songs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
+    try {
+      // Fetch all songs from the database
+      const allSongs = await Song.findAll();
+      res.render('songs/songs', { songs: allSongs });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 // POST route to create a new song
 router.post('/songs', async (req, res) => {
   const { title, genre } = req.body;
@@ -73,25 +73,29 @@ router.post('/library/add', async (req, res) => {
       } else {
         // If the song is not in the library, add it
         await Library.create({ songId: songId, userId: userId });
-        return res.status(201).json({ success: 'Song added to the library' });
+        
+        // Redirect the user to the library route after successfully adding the song
+        return res.redirect('/api/library');
       }
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
-  
+});
+
   // POST route to remove a song from the library
-  router.post('/library/remove', async (req, res) => {
+// Assuming you are using Express
+router.post('/library/remove', async (req, res) => {
     const { songId } = req.body;
     try {
-      await Library.destroy({ where: { UserId: req.user.id, SongId: songId } });
-      res.status(200).json({ message: 'Song removed from the library successfully' });
+        await Library.destroy({ where: { userId: req.user.id, songId: songId } });
+        res.redirect('/api/library');
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
+
   
  
 

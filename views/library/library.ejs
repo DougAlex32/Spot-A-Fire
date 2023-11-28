@@ -1,11 +1,21 @@
-<!-- views/library/library.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Library</title>
+    <style>
+        /* Add some basic styling for liked and disliked buttons */
+        .liked button {
+            background-color: green;
+            color: white;
+        }
+
+        .disliked button {
+            background-color: red;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <h1>User Library</h1>
@@ -13,14 +23,74 @@
     <% if (library && library.length > 0) { %>
         <ul>
             <% library.forEach(entry => { %>
-                <li>
+                <li class="<%= entry.likeStatus === 'liked' ? 'liked' : (entry.likeStatus === 'disliked' ? 'disliked' : '') %>">
                     <strong>Song Title:</strong> <%= entry.Song.title %>
-                    <!-- Add additional fields as needed -->
+                    
+                    <!-- Form to remove the song from the library -->
+                    <form action="/api/library/remove" method="post" style="display: inline-block; margin-right: 10px;">
+                        <input type="hidden" name="songId" value="<%= entry.Song.id %>">
+                        <button type="submit">Remove from Library</button>
+                    </form>
+
+                    <!-- Button to like the song -->
+                    <button class="like-button" data-song-id="<%= entry.Song.id %>">Like</button>
+
+                    <!-- Button to dislike the song -->
+                    <button class="dislike-button" data-song-id="<%= entry.Song.id %>">Dislike</button>
                 </li>
             <% }); %>
         </ul>
     <% } else { %>
         <p>No songs in the library.</p>
     <% } %>
+
+   
+<!-- JavaScript to handle like and dislike actions -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listeners for like and dislike buttons
+        const likeButtons = document.querySelectorAll('.like-button');
+        const dislikeButtons = document.querySelectorAll('.dislike-button');
+
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const songId = this.getAttribute('data-song-id');
+                handleLike(songId, this);
+            });
+        });
+
+        dislikeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const songId = this.getAttribute('data-song-id');
+                handleDislike(songId, this);
+            });
+        });
+    });
+
+    function handleLike(songId, button) {
+        // Implement the logic to handle liking a song
+        // You can make an AJAX request to your server to update the like status
+
+        // Toggle the liked class and update color
+        const isLiked = button.classList.toggle('liked');
+        button.style.backgroundColor = isLiked ? 'green' : 'white';
+    }
+
+    function handleDislike(songId, button) {
+        // Implement the logic to handle disliking a song
+        // You can make an AJAX request to your server to update the dislike status
+
+        // Toggle the disliked class and update color
+        const isDisliked = button.classList.toggle('disliked');
+        button.style.backgroundColor = isDisliked ? 'red' : 'white';
+    }
+</script>
+
+
+
 </body>
 </html>
+
+
+
+
