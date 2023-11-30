@@ -51,7 +51,6 @@ router.post('/genres', async (req, res) => {
   }
 });
 
-// POST route to add a song to the library
 // POST route to add a song to the user's library
 router.post('/library/add', async (req, res) => {
     const { songId } = req.body;
