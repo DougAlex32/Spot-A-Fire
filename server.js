@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const passport = require('./config/ppConfig');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const apiRouter = require('./controllers/api');
+const methodOverride = require('method-override');
 // environment variables
 SECRET_SESSION = process.env.SECRET_SESSION;
 
@@ -16,6 +17,8 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.use(layouts);
+
+app.use(methodOverride('_method'));
 
 app.use(flash());            // flash middleware
 
@@ -48,6 +51,20 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { id, name, email });
 });
 
+// Add this for handling the profile update (PUT request)
+app.put('/profile', isLoggedIn, async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const updatedUser = await req.user.update({ name });
+    // Send a success response
+    res.status(200).json({ message: 'Profile updated successfully', updatedUser });
+  } catch (error) {
+    // Handle the update failure, you might want to send an error response
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
 
 app.use('/api', isLoggedIn, apiRouter);
 

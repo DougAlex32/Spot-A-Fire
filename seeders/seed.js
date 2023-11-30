@@ -30,7 +30,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Add logic to undo seed data if needed
+    
   },
 };
 

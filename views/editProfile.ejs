@@ -1,0 +1,38 @@
+<!-- Edit form in edit.ejs -->
+<form id="editProfileForm" method="PUT" action="/profile">
+  <div class="mb-3">
+    <label for="editName" class="form-label">New Name</label>
+    <input type="text" class="form-control" id="editName" name="name" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<!-- JavaScript for handling form submission -->
+<script>
+  document.getElementById('editProfileForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const newName = document.getElementById('editName').value;
+
+    try {
+      const response = await fetch('/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: newName }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Redirect back to the profile page with the updated name
+        window.location.href = `/profile?name=${encodeURIComponent(data.user.name)}`;
+      } else {
+        alert('Failed to update profile');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred');
+    }
+  });
+</script>
